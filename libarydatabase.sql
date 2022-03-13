@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2022 at 07:50 AM
+-- Generation Time: Mar 13, 2022 at 06:37 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -135,19 +135,6 @@ CREATE TABLE `commentbooks` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detailbooks`
---
-
-CREATE TABLE `detailbooks` (
-  `id_interactive` int(11) NOT NULL,
-  `id_book` int(11) DEFAULT NULL,
-  `like_book` int(11) NOT NULL DEFAULT 1,
-  `view_book` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `inforbrandpay`
 --
 
@@ -171,8 +158,16 @@ CREATE TABLE `librarian` (
   `name_lib` varchar(60) NOT NULL,
   `permission` int(11) NOT NULL DEFAULT 2,
   `phone_lib` varchar(20) NOT NULL,
-  `date_crt` date NOT NULL
+  `date_crt` date NOT NULL,
+  `password` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `librarian`
+--
+
+INSERT INTO `librarian` (`id_lib`, `name_lib`, `permission`, `phone_lib`, `date_crt`, `password`) VALUES
+(2006010005, 'Trần Minh Tân', 1, '0398802442', '2022-03-13', '1234567');
 
 -- --------------------------------------------------------
 
@@ -205,15 +200,22 @@ INSERT INTO `publishingcompany` (`id_pub`, `name_pub`, `address_pub`, `email_pub
 
 CREATE TABLE `student` (
   `mssv` int(11) NOT NULL,
-  `name_stu` varchar(80) DEFAULT NULL,
+  `name_student` varchar(200) NOT NULL,
+  `class` varchar(50) DEFAULT NULL,
   `birth` date DEFAULT NULL,
-  `phone_stu` char(1) DEFAULT NULL,
-  `class` char(20) DEFAULT NULL,
+  `phone` char(20) DEFAULT NULL,
   `majors` text DEFAULT NULL,
   `course` int(11) DEFAULT NULL,
-  `address_stu` text DEFAULT NULL,
-  `date_crt` date DEFAULT NULL
+  `address` text DEFAULT NULL,
+  `password` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`mssv`, `name_student`, `class`, `birth`, `phone`, `majors`, `course`, `address`, `password`) VALUES
+(2006010004, 'Trần Minh Tân', '14THDH', '2002-09-07', '0398802442', 'Công Nghệ Thông Tin', 14, '14 Gò Vấp', '123456');
 
 --
 -- Indexes for dumped tables
@@ -262,13 +264,6 @@ ALTER TABLE `commentbooks`
   ADD PRIMARY KEY (`id_com`),
   ADD KEY `id_book` (`id_book`),
   ADD KEY `mssv` (`mssv`);
-
---
--- Indexes for table `detailbooks`
---
-ALTER TABLE `detailbooks`
-  ADD PRIMARY KEY (`id_interactive`),
-  ADD KEY `id_book` (`id_book`);
 
 --
 -- Indexes for table `inforbrandpay`
@@ -337,34 +332,16 @@ ALTER TABLE `commentbooks`
   MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `detailbooks`
---
-ALTER TABLE `detailbooks`
-  MODIFY `id_interactive` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `inforbrandpay`
 --
 ALTER TABLE `inforbrandpay`
   MODIFY `id_count` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `librarian`
---
-ALTER TABLE `librarian`
-  MODIFY `id_lib` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `publishingcompany`
 --
 ALTER TABLE `publishingcompany`
   MODIFY `id_pub` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `student`
---
-ALTER TABLE `student`
-  MODIFY `mssv` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -393,12 +370,6 @@ ALTER TABLE `commentbooks`
   ADD CONSTRAINT `commentbooks_ibfk_1` FOREIGN KEY (`id_book`) REFERENCES `books` (`id_book`),
   ADD CONSTRAINT `commentbooks_ibfk_2` FOREIGN KEY (`id_book`) REFERENCES `books` (`id_book`),
   ADD CONSTRAINT `commentbooks_ibfk_3` FOREIGN KEY (`mssv`) REFERENCES `student` (`mssv`);
-
---
--- Constraints for table `detailbooks`
---
-ALTER TABLE `detailbooks`
-  ADD CONSTRAINT `detailbooks_ibfk_1` FOREIGN KEY (`id_book`) REFERENCES `books` (`id_book`);
 
 --
 -- Constraints for table `inforbrandpay`
